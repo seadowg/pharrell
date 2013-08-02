@@ -1,42 +1,38 @@
 module Pharrell
   class Config
     def initialize
-      @map = {}
+      @bindings = {}
     end
 
     def bind(klass, arg = nil, &blk)
       if blk
         options = arg.kind_of?(Hash) ? arg : {}
-        @map[klass] = ObjectGenerator.new(options, &blk)
+        @bindings[klass] = ObjectGenerator.new(blk, options)
       else
-        @map[klass] = arg
+        obj_block = if arg.kind_of?(Class)
+          Proc.new { arg.new }
+        else
+          Proc.new { arg }
+        end
+
+        @bindings[klass] = ObjectGenerator.new(obj_block)
       end
     end
 
     def instance_for(klass)
-      instance_or_class = @map[klass]
-
-      if instance_or_class.is_a? Class
-        instance_or_class.new
-      elsif instance_or_class.is_a? ObjectGenerator
-        instance_or_class.fetch
-      else
-        instance_or_class
-      end
+      @bindings[klass].fetch
     end
 
     def rebuild!
-      @map.each do |key, value|
-        if value.is_a? ObjectGenerator
-          value.invalidate!
-        end
+      @bindings.each do |key, value|
+        value.invalidate!
       end
     end
 
     private
 
     class ObjectGenerator
-      def initialize(options = {}, &blk)
+      def initialize(blk, options = {})
         @blk = blk
         @options = options
       end
