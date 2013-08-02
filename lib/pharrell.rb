@@ -5,10 +5,6 @@ module Pharrell
   @@configs = {}
   @@config = nil
 
-  def self.instance_for(klass)
-    @@configs[@@config].instance_for(klass)
-  end
-
   def self.config(name, &blk)
     @@configs[name] = Config.new
     blk.call(@@configs[name])
@@ -18,7 +14,17 @@ module Pharrell
     @@config = name
   end
 
+  def self.instance_for(klass)
+    current_config.instance_for(klass)
+  end
+
   def self.rebuild!
-    @@configs[@@config].rebuild!
+    current_config.rebuild!
+  end
+
+  private
+
+  def self.current_config
+    @@configs[@@config]
   end
 end
