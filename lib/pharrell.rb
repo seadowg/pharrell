@@ -1,3 +1,6 @@
+require 'pharrell/config'
+require 'pharrell/injectible'
+
 module Pharrell
   @@configs = {}
   @@config = nil
@@ -13,25 +16,5 @@ module Pharrell
 
   def self.use_config(name)
     @@config = name
-  end
-
-  class Config
-    def initialize
-      @map = {}
-    end
-
-    def bind(klass, instance_or_class)
-      @map[klass] = instance_or_class
-    end
-
-    def instance_for(klass)
-      instance_or_class = @map[klass]
-
-      if (instance_or_class.is_a? Class)
-        instance_or_class.new
-      else
-        instance_or_class
-      end
-    end
   end
 end
