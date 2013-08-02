@@ -22,5 +22,11 @@ describe "Pharrell::Config" do
       config.bind(Object) { Object.new }
       assert(config.instance_for(Object) != config.instance_for(Object))
     end
+
+    it "can cache block generated instances" do
+      config = Pharrell::Config.new
+      config.bind(Object, :cache => true) { Object.new }
+      assert_equal(config.instance_for(Object), config.instance_for(Object))
+    end
   end
 end

@@ -6,7 +6,11 @@ module Pharrell
 
     def bind(klass, arg = nil, &blk)
       if blk
-        @map[klass] = blk
+        if arg.kind_of? Hash
+          @map[klass] = blk.call
+        else
+          @map[klass] = blk
+        end
       else
         @map[klass] = arg
       end
