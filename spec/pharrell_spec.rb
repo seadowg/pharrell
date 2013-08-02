@@ -19,4 +19,18 @@ describe "Pharrell" do
       assert_equal(Pharrell.instance_for(Time), Time.at(0))
     end
   end
+
+  describe ".rebuild!" do
+    it "forces all lazy values to be rebuilt" do
+      Pharrell.config(:main) do |config|
+        config.bind(Object, :cache => true) { Object.new }
+      end
+
+      Pharrell.use_config(:main)
+
+      original = Pharrell.instance_for(Object)
+      Pharrell.rebuild!
+      assert(Pharrell.instance_for(Object) != original)
+    end
+  end
 end

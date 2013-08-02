@@ -17,4 +17,8 @@ module Pharrell
   def self.use_config(name)
     @@config = name
   end
+
+  def self.rebuild!
+    @@configs[@@config].rebuild!
+  end
 end
