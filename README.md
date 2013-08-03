@@ -1,5 +1,7 @@
 # Pharrell
 
+[![Build Status](https://travis-ci.org/seadowg/pharrell.png?branch=master)](https://travis-ci.org/seadowg/pharrell)
+
 ![Pharrell](media/pharrell.jpg)
 
 ## Installation
