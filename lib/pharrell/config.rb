@@ -5,28 +5,39 @@ module Pharrell
       rebuild!
     end
 
-    def bind(klass, arg = nil, &blk)
-      if blk
-        options = arg.kind_of?(Hash) ? arg : {}
-        @bindings[klass] = blk
-      else
-        obj_block = if arg.kind_of?(Class)
-          Proc.new { arg.new }
-        else
-          Proc.new { arg }
-        end
-
-        @bindings[klass] = obj_block
-      end
-    end
-
     def instance_for(klass)
       @bindings[klass].call
     end
 
     def rebuild!
-      @bindings = {}
-      @definition.call(self)
+      @bindings =  Binder.new.tap { |b|
+        @definition.call(b)
+      }.bindings
+    end
+
+    private
+
+    class Binder
+      attr_reader :bindings
+
+      def initialize
+        @bindings = {}
+      end
+
+      def bind(klass, arg = nil, &blk)
+        if blk
+          options = arg.kind_of?(Hash) ? arg : {}
+          @bindings[klass] = blk
+        else
+          obj_block = if arg.kind_of?(Class)
+            Proc.new { arg.new }
+          else
+            Proc.new { arg }
+          end
+
+          @bindings[klass] = obj_block
+        end
+      end
     end
   end
 end
