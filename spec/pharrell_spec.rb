@@ -21,9 +21,9 @@ describe "Pharrell" do
   end
 
   describe ".rebuild!" do
-    it "forces all lazy values to be rebuilt" do
+    it "forces all bound values to be rebuilt" do
       Pharrell.config(:main) do |config|
-        config.bind(Object, :cache => true) { Object.new }
+        config.bind(Object, Object.new)
       end
 
       Pharrell.use_config(:main)

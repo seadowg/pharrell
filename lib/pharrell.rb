@@ -6,8 +6,7 @@ module Pharrell
   @@config = nil
 
   def self.config(name, &blk)
-    @@configs[name] = Config.new
-    blk.call(@@configs[name])
+    @@configs[name] = Config.new(blk)
   end
 
   def self.use_config(name)
