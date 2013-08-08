@@ -15,6 +15,13 @@ module Pharrell
       }.bindings
     end
 
+    def extend(definition)
+      Config.new(Proc.new { |config|
+        @definition.call(config)
+        definition.call(config)
+      })
+    end
+
     private
 
     class Binder

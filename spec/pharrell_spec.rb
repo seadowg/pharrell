@@ -18,6 +18,21 @@ describe "Pharrell" do
       Pharrell.use_config(:main)
       assert_equal(Pharrell.instance_for(Time), Time.at(0))
     end
+
+    it "allows extensions of a previous config" do
+      Pharrell.config(:main) do |c|
+        c.bind(Object, "Object")
+        c.bind(String, "Hello")
+      end
+
+      Pharrell.config(:test, :extends => :main) do |c|
+        c.bind(String, "Hello, Test")
+      end
+
+      Pharrell.use_config(:test)
+      assert_equal(Pharrell.instance_for(Object), "Object")
+      assert_equal(Pharrell.instance_for(String), "Hello, Test")
+    end
   end
 
   describe ".rebuild!" do

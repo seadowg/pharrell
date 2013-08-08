@@ -5,8 +5,12 @@ module Pharrell
   @@configs = {}
   @@config = nil
 
-  def self.config(name, &blk)
-    @@configs[name] = Config.new(blk)
+  def self.config(name, opts = {}, &blk)
+    if opts[:extends]
+      @@configs[name] = @@configs[opts[:extends]].extend(blk)
+    else
+      @@configs[name] = Config.new(blk)
+    end
   end
 
   def self.use_config(name)
