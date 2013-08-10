@@ -1,3 +1,5 @@
+require 'matilda-function'
+
 module Pharrell
   class Config
     def initialize(definition)
@@ -16,10 +18,7 @@ module Pharrell
     end
 
     def extend(definition)
-      Config.new(Proc.new { |config|
-        @definition.call(config)
-        definition.call(config)
-      })
+      Config.new(@definition + definition)
     end
 
     private
