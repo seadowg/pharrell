@@ -15,6 +15,7 @@ module Pharrell
 
   def self.use_config(name)
     @@config = name
+    rebuild!
   end
 
   def self.instance_for(klass)

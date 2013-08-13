@@ -19,6 +19,22 @@ describe "Pharrell" do
       assert_equal(Pharrell.instance_for(Time), Time.at(0))
     end
 
+    it "rebuilds singletons" do
+      Pharrell.config(:base) do |config|
+        config.bind(Object, Object.new)
+      end
+
+      Pharrell.use_config(:base)
+      first_instance = Pharrell.instance_for(Object)
+
+      Pharrell.use_config(:base)
+      second_instance = Pharrell.instance_for(Object)
+
+      assert(first_instance != second_instance)
+    end
+  end
+
+  describe ".config" do
     it "allows extensions of a previous config" do
       Pharrell.config(:main) do |c|
         c.bind(Object, "Object")
