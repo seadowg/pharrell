@@ -99,7 +99,7 @@ Pharrell.use_config(:base) do |config|
   config.bind(Hash, { :key => "value" }
 end
 
-Pharrell.use_config(:extend) do |config|
+Pharrell.use_config(:more, :extend => :base) do |config|
   config.bind(String, "This string instead")
 end
 ```
