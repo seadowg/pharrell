@@ -18,6 +18,8 @@ Or, install for your system:
 
 ## Usage
 
+### Basics
+
 You can inject dependencies into classes like so:
 
 ```ruby
@@ -62,5 +64,45 @@ describe "CurrentTime" do
   it "displays the time of day" do
     assert_equal(CurrentTime.new.to_s, "The time is 12 o'clock")
   end
+end
+```
+
+### Bindings
+
+When building configurations in pharrell you can bind instances to
+produce to classes in three different ways:
+
+```ruby
+Pharrell.config(:example) do |config|
+  config.bind(Object) { Object.new } # Evaluate and return for each
+  injected Object
+  config.bind(Enumerable, Array) # Return a new instance of Array for
+  each injected Enumerable
+  config.bind(String, "Hello") # Every injected String will be the same
+  instance of "Hello"
+end
+```
+
+The last option (every String is "Hello") allows you to
+provides singletons using Pharrell. It's important to note that calling
+`.use_config` will cause the specified configuration to rerun its
+definition block and rebuild all singletons. This is useful in testing
+as you can assert on an object shared between test and real code without
+worrying about resetting or rebuilding it to avoid test pollution.
+
+### Extending Configurations
+
+You can also extend configurations. This allows you to use all the
+bindings from the original configuration and override bindings you want
+to change. For instance:
+
+```ruby
+Pharrell.use_config(:base) do |config|
+  config.bind(String, "This string")
+  config.bind(Hash, { :key => "value" }
+end
+
+Pharrell.use_config(:extend) do |config|
+  config.bind(String, "This string instead")
 end
 ```
