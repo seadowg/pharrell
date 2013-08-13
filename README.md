@@ -76,7 +76,7 @@ produce to classes in three different ways:
 Pharrell.config(:example) do |config|
   config.bind(Object) { Object.new } # Evaluate and return for each injected Object
   config.bind(Enumerable, Array) # Return a new instance of Array for each injected Enumerable
-  config.bind(String, "Hello") # Every injected String will be the sameinstance of "Hello"
+  config.bind(String, "Hello") # Every injected String will be the same instance of "Hello"
 end
 ```
 
