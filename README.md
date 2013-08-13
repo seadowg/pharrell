@@ -96,7 +96,7 @@ to change. For instance:
 ```ruby
 Pharrell.use_config(:base) do |config|
   config.bind(String, "This string")
-  config.bind(Hash, { :key => "value" }
+  config.bind(Hash, { :key => "value" })
 end
 
 Pharrell.use_config(:more, :extend => :base) do |config|
