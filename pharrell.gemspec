@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
 
   s.require_paths = ['lib']
   s.files = `git ls-files`.split("\n")
+  
+  s.add_dependency "matilda-function"
 end
