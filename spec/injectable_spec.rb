@@ -1,14 +1,14 @@
 require 'minitest/autorun'
 require 'pharrell'
 
-describe "Injectible" do
+describe "Injectable" do
   describe ".inject" do
     it "defines a method to retrieve that class from Pharrell" do
       Pharrell.config(:base) { |c| c.bind(String, "Injected") }
       Pharrell.use_config(:base)
 
       klass = Class.new {
-        include Pharrell::Injectible
+        include Pharrell::Injectable
 
         inject :string, String
       }

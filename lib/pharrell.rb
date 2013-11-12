@@ -1,5 +1,5 @@
 require 'pharrell/config'
-require 'pharrell/injectible'
+require 'pharrell/injectable'
 
 module Pharrell
   @@configs = {}
