@@ -1,5 +1,3 @@
-require 'matilda-function'
-
 module Pharrell
   class Config
     def initialize(definition)
@@ -18,7 +16,12 @@ module Pharrell
     end
 
     def extend(definition)
-      Config.new(@definition + definition)
+      agg_definition = proc { |binder| 
+        @definition.call(binder)
+        definition.call(binder) 
+      }
+      
+      Config.new(agg_definition)
     end
 
     private

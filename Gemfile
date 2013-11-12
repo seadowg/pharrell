@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'matilda-function'
+gemspec
 
 group :test do
   gem 'rake'

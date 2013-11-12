@@ -1,12 +1,16 @@
+PATH
+  remote: .
+  specs:
+    pharrell (0.4.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    matilda-function (0.3.0)
     rake (10.0.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  matilda-function
+  pharrell!
   rake
