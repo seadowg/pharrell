@@ -1,12 +1,12 @@
 PATH
   remote: .
   specs:
-    pharrell (0.4.3)
+    pharrell (0.5.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    rake (10.0.3)
+    rake (10.1.0)
 
 PLATFORMS
   ruby
