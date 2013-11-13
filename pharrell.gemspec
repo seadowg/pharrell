@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email = ["callum@seadowg.com"]
   s.summary = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
   s.license = 'MIT'
+  s.homepage = "http://github.com/seadowg/pharrell"
 
   s.require_paths = ['lib']
   s.files = `git ls-files`.split("\n")
