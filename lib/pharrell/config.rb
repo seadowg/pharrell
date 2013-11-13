@@ -35,7 +35,6 @@ module Pharrell
 
       def bind(klass, arg = nil, &blk)
         if blk
-          options = arg.kind_of?(Hash) ? arg : {}
           @bindings[klass] = blk
         else
           obj_block = if arg.kind_of?(Class)
