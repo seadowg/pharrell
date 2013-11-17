@@ -38,7 +38,17 @@ module Pharrell
           @bindings[klass] = blk
         else
           obj_block = if arg.kind_of?(Class)
-            Proc.new { arg.new }
+            Proc.new {
+              if Pharrell.constructor_for(arg)
+                args = Pharrell.constructor_for(arg).map do |klass|
+                  Pharrell.instance_for(klass)
+                end
+              
+                arg.new(*args)
+              else
+                arg.new
+              end
+            }
           else
             Proc.new { arg }
           end

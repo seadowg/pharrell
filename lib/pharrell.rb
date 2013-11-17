@@ -1,8 +1,10 @@
 require 'pharrell/config'
 require 'pharrell/injectable'
+require 'pharrell/constructor'
 
 module Pharrell
   @@configs = {}
+  @@constructors = {}
   @@config = nil
 
   def self.config(name, opts = {}, &blk)
@@ -24,6 +26,14 @@ module Pharrell
 
   def self.rebuild!
     current_config.rebuild!
+  end
+  
+  def self.define_contructor(klass, *types)
+    @@constructors[klass] = types 
+  end
+  
+  def self.constructor_for(klass)
+    @@constructors[klass]
   end
 
   private
