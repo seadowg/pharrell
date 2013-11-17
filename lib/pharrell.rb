@@ -4,7 +4,6 @@ require 'pharrell/constructor'
 
 module Pharrell
   @@configs = {}
-  @@constructors = {}
   @@config = nil
 
   def self.config(name, opts = {}, &blk)
