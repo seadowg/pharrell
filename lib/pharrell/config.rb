@@ -38,22 +38,26 @@ module Pharrell
           @bindings[klass] = blk
         else
           obj_block = if arg.kind_of?(Class)
-            Proc.new { |config|
-              if arg.respond_to?(:__pharrell_constructor_classes)
-                args = arg.__pharrell_constructor_classes.map do |klass|
-                  config.instance_for(klass)
-                end
-              
-                arg.new(*args)
-              else
-                arg.new
-              end
-            }
+            Proc.new { |config| build_instance(arg, config)}
           else
             Proc.new { arg }
           end
 
           @bindings[klass] = obj_block
+        end
+      end
+      
+      private
+      
+      def build_instance(target_klass, config)
+        if target_klass.respond_to?(:__pharrell_constructor_classes)
+          args = target_klass.__pharrell_constructor_classes.map do |arg_klass|
+            config.instance_for(arg_klass)
+          end
+        
+          target_klass.new(*args)
+        else
+          target_klass.new
         end
       end
     end
