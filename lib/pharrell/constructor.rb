@@ -5,8 +5,14 @@ module Pharrell
     end
 
     module ClassMethods
-      def constructor(*args)
-        Pharrell.define_contructor(self, *args)
+      @@constructor = []
+      
+      def constructor(*klasses)
+        @@constructor = klasses
+      end
+      
+      def __pharrell_constructor_classes
+        @@constructor
       end
     end
   end

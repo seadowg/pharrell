@@ -6,7 +6,7 @@ module Pharrell
     end
 
     def instance_for(klass)
-      @bindings[klass].call
+      @bindings[klass].call(self)
     end
 
     def rebuild!
@@ -38,10 +38,10 @@ module Pharrell
           @bindings[klass] = blk
         else
           obj_block = if arg.kind_of?(Class)
-            Proc.new {
-              if Pharrell.constructor_for(arg)
-                args = Pharrell.constructor_for(arg).map do |klass|
-                  Pharrell.instance_for(klass)
+            Proc.new { |config|
+              if arg.respond_to?(:__pharrell_constructor_classes)
+                args = arg.__pharrell_constructor_classes.map do |klass|
+                  config.instance_for(klass)
                 end
               
                 arg.new(*args)
