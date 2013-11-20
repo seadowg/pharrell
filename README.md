@@ -103,3 +103,24 @@ Pharrell.use_config(:more, :extend => :base) do |config|
   config.bind(String, "This string instead")
 end
 ```
+### Using with Rails
+
+Pharrell is really easy to set up with Rails. Here's an example similar to the `Time` example we used before:
+
+**config/application.rb**
+
+```ruby
+class Application < Rails::Application
+  config.to_prepare do
+    Pharrell.config do |config|
+      config.bind(Time, Time)
+    end
+    
+    Pharrell.use_config(:base)
+  end
+end
+```
+
+Pharrell should be configured in the Rails Application's `#to_prepare` method as this runs at startup
+in production and before each request in development. You can then attach your test configuration for Pharrell to
+whatever test framework you use (exactly as in the first example).
