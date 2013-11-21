@@ -64,4 +64,18 @@ describe "Pharrell" do
       assert(Pharrell.instance_for(Object) != original)
     end
   end
+  
+  describe ".instance_for" do
+    it "raises a BindingNotFoundError if there is no binding for the instance" do
+      Pharrell.config(:main) { |config| }
+      Pharrell.use_config(:main)
+      
+      begin
+        Pharrell.instance_for(Object)
+        flunk("#instance_for did not raise an error!")
+      rescue Pharrell::BindingNotFoundError => e
+        assert_equal("Binding could not be found", e.message)
+      end 
+    end
+  end
 end

@@ -3,6 +3,12 @@ require 'pharrell/injectable'
 require 'pharrell/constructor'
 
 module Pharrell
+  class BindingNotFoundError < Exception
+    def message
+      "Binding could not be found"
+    end
+  end
+  
   @@configs = {}
   @@config = nil
 

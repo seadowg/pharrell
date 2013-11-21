@@ -6,7 +6,13 @@ module Pharrell
     end
 
     def instance_for(klass)
-      @bindings[klass].call(self)
+      binding = @bindings[klass]
+      
+      if binding
+        binding.call(self)
+      else
+        raise BindingNotFoundError
+      end
     end
 
     def rebuild!
