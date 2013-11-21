@@ -2,6 +2,10 @@ require 'minitest/autorun'
 require 'pharrell'
 
 describe "Pharrell::Config" do
+  before do
+    Pharrell.reset!
+  end
+  
   describe "#instance_for" do
     it "returns an instance bound to a class" do
       config = Pharrell::Config.new(Proc.new { |c|

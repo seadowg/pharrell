@@ -2,6 +2,10 @@ require 'minitest/autorun'
 require 'pharrell'
 
 describe "Pharrell" do
+  before do
+    Pharrell.reset!
+  end
+  
   describe ".use_config" do
     it "switches Pharrell to use the specified config" do
       Pharrell.config(:test) do |config|
@@ -31,6 +35,15 @@ describe "Pharrell" do
       second_instance = Pharrell.instance_for(Object)
 
       assert(first_instance != second_instance)
+    end
+    
+    it "raises a ConfigNotDefinedError if the config does not exist" do
+      begin
+        Pharrell.use_config(:main)
+        flunk(".use_config did not raise an error!")
+      rescue Pharrell::ConfigNotDefinedError => e
+        assert_equal("Config has not been defined!", e.message)
+      end
     end
   end
 
@@ -72,9 +85,9 @@ describe "Pharrell" do
       
       begin
         Pharrell.instance_for(Object)
-        flunk("#instance_for did not raise an error!")
+        flunk(".instance_for did not raise an error!")
       rescue Pharrell::BindingNotFoundError => e
-        assert_equal("Binding could not be found", e.message)
+        assert_equal("Binding could not be found!", e.message)
       end 
     end
   end

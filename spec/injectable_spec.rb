@@ -2,6 +2,10 @@ require 'minitest/autorun'
 require 'pharrell'
 
 describe "Injectable" do
+  before do
+    Pharrell.reset!
+  end
+  
   describe ".inject" do
     it "defines a method to retrieve that class from Pharrell" do
       Pharrell.config(:base) { |c| c.bind(String, "Injected") }

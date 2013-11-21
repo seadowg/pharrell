@@ -5,7 +5,13 @@ require 'pharrell/constructor'
 module Pharrell
   class BindingNotFoundError < Exception
     def message
-      "Binding could not be found"
+      "Binding could not be found!"
+    end
+  end
+  
+  class ConfigNotDefinedError < Exception
+    def message
+      "Config has not been defined!"
     end
   end
   
@@ -32,10 +38,21 @@ module Pharrell
   def self.rebuild!
     current_config.rebuild!
   end
+  
+  def self.reset!
+    @@configs = {}
+    @@config = nil
+  end
 
   private
 
   def self.current_config
-    @@configs[@@config]
+    config = @@configs[@@config]
+    
+    if config
+      config
+    else
+      raise ConfigNotDefinedError
+    end
   end
 end

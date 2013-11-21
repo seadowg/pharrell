@@ -2,6 +2,10 @@ require 'minitest/autorun'
 require 'pharrell'
 
 describe "Constructor" do
+  before do
+    Pharrell.reset!
+  end
+  
   describe ".contructor" do
     it "allows a class to be lazily created by Pharrell with the defined types" do
       klass = Class.new {
