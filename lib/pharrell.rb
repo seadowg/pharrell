@@ -15,10 +15,22 @@ module Pharrell
     end
   end
   
+  class InvalidOptionsError < Exception
+    def initialize(opts)
+      @opts = opts
+    end
+    
+    def message
+      "Invalid options: #{@opts.join(" ")}"
+    end
+  end
+  
   @@configs = {}
   @@config = nil
 
   def self.config(name, opts = {}, &blk)
+    check_options([:extends], opts)
+    
     if opts[:extends]
       @@configs[name] = fetch_config(opts[:extends]).extend(blk)
     else
@@ -57,6 +69,16 @@ module Pharrell
       config
     else
       raise ConfigNotDefinedError
+    end
+  end
+  
+  def self.check_options(opts, opt_hash)
+    extra_keys = opt_hash.keys.reject { |key| opts.include?(key) }
+    
+    if extra_keys.empty?
+      true
+    else
+      raise InvalidOptionsError.new(extra_keys)
     end
   end
 end

@@ -71,6 +71,15 @@ describe "Pharrell" do
         assert_equal("Config has not been defined!", e.message)
       end
     end
+    
+    it "raises an InvalidOptionsError for invalid options" do
+      begin
+        Pharrell.config(:base, :wrong_opt => "Value", :other_opt => "Value") { |config| }
+        flunk(".config did not raise an error!")
+      rescue Pharrell::InvalidOptionsError => e
+        assert_equal("Invalid options: wrong_opt other_opt", e.message)
+      end
+    end
   end
 
   describe ".rebuild!" do
