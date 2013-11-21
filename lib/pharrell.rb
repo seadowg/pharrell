@@ -20,7 +20,7 @@ module Pharrell
 
   def self.config(name, opts = {}, &blk)
     if opts[:extends]
-      @@configs[name] = @@configs[opts[:extends]].extend(blk)
+      @@configs[name] = fetch_config(opts[:extends]).extend(blk)
     else
       @@configs[name] = Config.new(blk)
     end
@@ -47,7 +47,11 @@ module Pharrell
   private
 
   def self.current_config
-    config = @@configs[@@config]
+    fetch_config(@@config)
+  end
+  
+  def self.fetch_config(name)
+    config = @@configs[name]
     
     if config
       config

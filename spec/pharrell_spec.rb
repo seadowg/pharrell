@@ -62,6 +62,15 @@ describe "Pharrell" do
       assert_equal(Pharrell.instance_for(Object), "Object")
       assert_equal(Pharrell.instance_for(String), "Hello, Test")
     end
+    
+    it "raises a ConfigNotDefinedError if the extended config does not exist" do
+      begin
+        Pharrell.config(:sub, :extends => :base)
+        flunk(".config did not raise an error!")
+      rescue Pharrell::ConfigNotDefinedError => e
+        assert_equal("Config has not been defined!", e.message)
+      end
+    end
   end
 
   describe ".rebuild!" do
