@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'minitest/autorun'
 require 'pharrell'
 
