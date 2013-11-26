@@ -1,7 +1,6 @@
 # pharrell
 
 [![Build Status](https://travis-ci.org/seadowg/pharrell.png?branch=master)](https://travis-ci.org/seadowg/pharrell)
-
 [![Coverage Status](https://coveralls.io/repos/seadowg/pharrell/badge.png?branch=master)](https://coveralls.io/r/seadowg/pharrell?branch=master)
 
 ![Pharrell](media/pharrell.jpg)
