@@ -12,7 +12,8 @@ describe "Pharrell::Config" do
       config = Pharrell::Config.new(Proc.new { |c|
         c.bind(Time, Time.at(0))
       })
-
+      
+      config.rebuild!
       assert_equal(config.instance_for(Time), Time.at(0))
     end
 
@@ -22,6 +23,7 @@ describe "Pharrell::Config" do
         c.bind(String, my_class)
       })
 
+      config.rebuild!
       assert_equal(config.instance_for(String).class, my_class)
     end
 
@@ -30,6 +32,7 @@ describe "Pharrell::Config" do
         c.bind(Object) { Object.new }
       })
 
+      config.rebuild!
       assert(config.instance_for(Object) != config.instance_for(Object))
     end
   end

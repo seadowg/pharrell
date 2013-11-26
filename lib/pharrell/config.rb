@@ -2,7 +2,6 @@ module Pharrell
   class Config
     def initialize(definition)
       @definition = definition
-      rebuild!
     end
 
     def instance_for(klass)
