@@ -7,7 +7,7 @@ describe "Injectable" do
     Pharrell.reset!
   end
   
-  describe ".inject" do
+  describe ".injected" do
     it "defines a method to retrieve that class from Pharrell" do
       Pharrell.config(:base) { |c| c.bind(String, "Injected") }
       Pharrell.use_config(:base)
@@ -15,7 +15,7 @@ describe "Injectable" do
       klass = Class.new {
         include Pharrell::Injectable
 
-        inject :string, String
+        injected :string, String
       }
 
       assert_equal(klass.new.send(:string), "Injected")

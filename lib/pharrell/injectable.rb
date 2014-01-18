@@ -5,7 +5,7 @@ module Pharrell
     end
 
     module ClassMethods
-      def inject(name, klass)
+      def injected(name, klass)
         define_method(name) do
           Pharrell.instance_for(klass)
         end
