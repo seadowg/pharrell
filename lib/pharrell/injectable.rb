@@ -7,7 +7,8 @@ module Pharrell
     module ClassMethods
       def injected(name, klass)
         define_method(name) do
-          Pharrell.instance_for(klass)
+          @__pharrell_cache__ ||= {}
+          @__pharrell_cache__[klass] ||= Pharrell.instance_for(klass)
         end
       end
     end
