@@ -27,7 +27,7 @@ You can inject dependencies into classes like so:
 class CurrentTime
   include Pharrell::Injectible
 
-  inject :current_time, Time
+  injected :current_time, Time
 
   def to_s
     hour = current_time.hour % 12
