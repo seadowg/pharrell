@@ -24,7 +24,7 @@ Or, install for your system:
 You can inject dependencies into classes like so:
 
 ```ruby
-class CurrentTime
+class BlackBox
   include Pharrell::Injectible
 
   injected :current_time, Time
@@ -57,16 +57,91 @@ Pharrell.config(:test) do |config|
   config.bind(Time, Time.at(0))
 end
 
-describe "CurrentTime" do
+describe BlackBox do
   before do
     Pharrell.use_config(:test)
   end
 
   it "displays the time of day" do
-    assert_equal(CurrentTime.new.to_s, "The time is 12 o'clock")
+    assert_equal(BlackBox.new.to_s, "The time is 12 o'clock")
   end
 end
 ```
+
+### Constructor Injection
+
+When you're working with objects that have to be a black box
+(like a Rails controller for instance) you will need to inject dependencies
+like in the basic example before. It's a lot nicer to be able to design your
+other objects so their dependencies are injected directly into their constructor i.e.
+they do not cheat. This will make your components easier reason about and easier to test.
+
+We can break the previous time code into into its object to achieve this:
+
+```ruby
+class PrettyTime
+  def initialize(current_time)
+    @current_time = current_time
+  end
+
+  def to_s
+    hour = @current_time.hour % 12
+    "The time is #{hour == 0 ? 12 : hour} o'clock"
+  end
+end
+```
+
+This is great but what if we want to construct `PrettyTime` of these in the
+`BlackBox` class?
+
+For this we can use constructor injection:
+
+```ruby
+class PrettyTime
+  include Pharrell::Constructor
+
+  constructor Time
+
+  def initialize(current_time)
+    @current_time = current_time
+  end
+
+  def to_s
+    hour = @current_time.hour % 12
+    "The time is #{hour == 0 ? 12 : hour} o'clock"
+  end
+end
+```
+
+We can then inject `PrettyTime` straight into `BlackBox`:
+
+```ruby
+class BlackBox
+  include Pharrell::Injectible
+
+  injected :pretty_time, PrettyTime
+
+  def to_s
+    pretty_time.to_s
+  end
+end
+```
+
+Our binding would then look like this:
+
+```ruby
+Pharrell.config(:base) do |config|
+  config.bind(Time) { Time.now }
+  config.bind(PrettyTime, PrettyTime)
+end
+```
+
+Because we marked `PrettyTime` as having constructor injection
+pharrell will build `PrettyTime` with the bound instance of `Time`.
+
+This approach may seem more complex but it allows you to move most of your application's logic
+into more responsible components and should free you from using
+magic dependency injection (DI frameworks, stubbing factories etc) anywhere but at the top level.
 
 ### Bindings
 
@@ -116,7 +191,7 @@ class Application < Rails::Application
     Pharrell.config do |config|
       config.bind(Time, Time)
     end
-    
+
     Pharrell.use_config(:base)
   end
 end
