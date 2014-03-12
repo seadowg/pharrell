@@ -188,15 +188,33 @@ Pharrell is really easy to set up with Rails. Here's an example similar to the `
 ```ruby
 class Application < Rails::Application
   config.to_prepare do
-    Pharrell.config do |config|
+    Pharrell.config(:base) do |config|
       config.bind(Time, Time)
     end
+    
+    Pharrell.use_config(:development, :extends => :base) {}
+    Pharrell.use_config(:production, :extends => :base) {}
+    
+    Pharrell.use_config(:test, :extends => :base) do
+      config.bind(Time, FakeTime.new)
+    end
 
-    Pharrell.use_config(:base)
+    Pharrell.use_config(Rails.env.to_sym)
+  end
+end
+```
+
+**spec/spec_helper.rb**
+
+```ruby
+RSpec.configure do |config|
+  config.include Pharrell::Injectable
+
+  config.before(:each) do
+    Pharrell.use_config(:test)
   end
 end
 ```
 
 Pharrell should be configured in the Rails Application's `#to_prepare` method as this runs at startup
-in production and before each request in development. You can then attach your test configuration for Pharrell to
-whatever test framework you use (exactly as in the first example).
+in production and before each request in development.
