@@ -191,10 +191,11 @@ class Application < Rails::Application
     Pharrell.config(:base) do |config|
       config.bind(Time, Time)
     end
-    
-    Pharrell.use_config(:development, :extends => :base) {}
-    Pharrell.use_config(:production, :extends => :base) {}
-    
+
+    # make sure you have one config for each of your environments!
+    Pharrell.config(:development, :extends => :base) {}
+    Pharrell.config(:production, :extends => :base) {}
+
     Pharrell.use_config(:test, :extends => :base) do
       config.bind(Time, FakeTime.new)
     end
