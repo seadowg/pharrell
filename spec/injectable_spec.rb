@@ -6,7 +6,7 @@ describe "Injectable" do
   before do
     Pharrell.reset!
   end
-  
+
   describe ".injected" do
     it "defines a method to retrieve that class from Pharrell" do
       Pharrell.config(:base) { |c| c.bind(String, "Injected") }
@@ -20,7 +20,7 @@ describe "Injectable" do
 
       assert_equal(klass.new.send(:string), "Injected")
     end
-    
+
     it "caches lazy bindings on the instance" do
       i = 0
       Pharrell.config(:base) { |c| c.bind(Object) { i = i + 1 } }
@@ -31,7 +31,7 @@ describe "Injectable" do
 
         injected :injected_ob, Object
       }
-      
+
       object = klass.new
       assert_equal(object.send(:injected_ob), object.send(:injected_ob))
     end
