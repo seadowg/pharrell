@@ -36,7 +36,7 @@ class BlackBox
 end
 ```
 
-The values injected are dependent on the current conifguration:
+The values injected are dependent on the current configuration:
 
 ```ruby
 Pharrell.config(:base) do |config|
@@ -47,7 +47,7 @@ Pharrell.use_config(:base)
 ```
 
 You can use configurations to change the injected values in different
-scenarios. For instance, we can use Pharrell to help us test `CurrentTime` class
+scenarios. For instance, we can use Pharrell to help us test the `BlackBox` class
 defined above:
 
 ```ruby
@@ -91,7 +91,7 @@ class PrettyTime
 end
 ```
 
-This is great but what if we want to construct `PrettyTime` of these in the
+This is great but what if we want to construct a `PrettyTime` instance in the
 `BlackBox` class?
 
 For this we can use constructor injection:
