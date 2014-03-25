@@ -219,3 +219,11 @@ end
 
 Pharrell should be configured in the Rails Application's `#to_prepare` method as this runs at startup
 in production and before each request in development.
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
