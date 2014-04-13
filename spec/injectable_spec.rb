@@ -57,6 +57,7 @@ describe "Injectable" do
 
       object = klass.new
       assert_equal(object.send(:injected_ob), object.send(:injected_ob))
+      refute_equal(object.send(:injected_ob), klass.new.send(:injected_ob))
     end
   end
 end
