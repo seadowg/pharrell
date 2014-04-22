@@ -25,7 +25,7 @@ You can inject dependencies into classes like so:
 
 ```ruby
 class BlackBox
-  include Pharrell::Injectible
+  include Pharrell::Injectable
 
   injected :current_time, Time
 
@@ -117,7 +117,7 @@ We can then inject `PrettyTime` straight into `BlackBox`:
 
 ```ruby
 class BlackBox
-  include Pharrell::Injectible
+  include Pharrell::Injectable
 
   injected :pretty_time, PrettyTime
 
