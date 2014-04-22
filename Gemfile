@@ -4,5 +4,4 @@ gemspec
 
 group :test do
   gem 'rake'
-  gem 'coveralls'
 end
