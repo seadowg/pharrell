@@ -6,26 +6,26 @@ module Pharrell
 
     def instance_for(klass)
       binding = @bindings[klass]
-      
+
       if binding
         binding.call(self)
       else
-        raise BindingNotFoundError
+        raise BindingNotFoundError.new(klass)
       end
     end
 
     def rebuild!
-      @bindings =  Binder.new.tap { |b|
+      @bindings = Binder.new.tap { |b|
         @definition.call(b)
       }.bindings
     end
 
     def extend(definition)
-      agg_definition = proc { |binder| 
+      agg_definition = proc { |binder|
         @definition.call(binder)
-        definition.call(binder) 
+        definition.call(binder)
       }
-      
+
       Config.new(agg_definition)
     end
 
@@ -51,15 +51,15 @@ module Pharrell
           @bindings[klass] = obj_block
         end
       end
-      
+
       private
-      
+
       def build_instance(target_klass, config)
         if target_klass.respond_to?(:__pharrell_constructor_classes)
           args = target_klass.__pharrell_constructor_classes.map do |arg_klass|
             config.instance_for(arg_klass)
           end
-        
+
           target_klass.new(*args)
         else
           target_klass.new
@@ -68,4 +68,3 @@ module Pharrell
     end
   end
 end
-

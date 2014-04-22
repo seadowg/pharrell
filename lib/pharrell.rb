@@ -76,7 +76,7 @@ module Pharrell
       if config
         config
       else
-        raise ConfigNotDefinedError
+        raise ConfigNotDefinedError.new(name)
       end
     end
 

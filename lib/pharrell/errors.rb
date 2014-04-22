@@ -1,13 +1,21 @@
 module Pharrell
   class BindingNotFoundError < Exception
+    def initialize(klass)
+      @klass = klass
+    end
+
     def message
-      "Binding could not be found!"
+      "Binding for #{@klass} could not be found!"
     end
   end
 
   class ConfigNotDefinedError < Exception
+    def initialize(config)
+      @config = config
+    end
+
     def message
-      "Config has not been defined!"
+      "Config '#{@config}' has not been defined!"
     end
   end
 

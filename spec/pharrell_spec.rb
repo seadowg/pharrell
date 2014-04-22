@@ -43,7 +43,7 @@ describe "Pharrell" do
         Pharrell.use_config(:main)
         flunk(".use_config did not raise an error!")
       rescue Pharrell::ConfigNotDefinedError => e
-        assert_equal("Config has not been defined!", e.message)
+        assert_equal("Config 'main' has not been defined!", e.message)
       end
     end
   end
@@ -69,7 +69,7 @@ describe "Pharrell" do
         Pharrell.config(:sub, :extends => :base)
         flunk(".config did not raise an error!")
       rescue Pharrell::ConfigNotDefinedError => e
-        assert_equal("Config has not been defined!", e.message)
+        assert_equal("Config 'base' has not been defined!", e.message)
       end
     end
 
@@ -106,7 +106,7 @@ describe "Pharrell" do
         Pharrell.instance_for(Object)
         flunk(".instance_for did not raise an error!")
       rescue Pharrell::BindingNotFoundError => e
-        assert_equal("Binding could not be found!", e.message)
+        assert_equal("Binding for Object could not be found!", e.message)
       end
     end
   end
