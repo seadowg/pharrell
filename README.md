@@ -71,12 +71,12 @@ end
 ### Constructor Injection
 
 When you're working with objects that have to be a black box
-(like a Rails controller for instance) you will need to inject dependencies
+(like a Rails controller for instance) you will need to inject dependencies artificially
 like in the basic example before. It's a lot nicer to be able to design your
 other objects so their dependencies are injected directly into their constructor i.e.
-they do not cheat. This will make your components easier reason about and easier to test.
+they do not cheat. This will make your components easier to reason about and easier to test.
 
-We can break the previous time code into into its object to achieve this:
+We can break the previous example into its object to achieve this:
 
 ```ruby
 class PrettyTime
@@ -92,7 +92,7 @@ end
 ```
 
 This is great but what if we want to construct a `PrettyTime` instance in the
-`BlackBox` class?
+`BlackBox` class without having to inject `Time`?
 
 For this we can use constructor injection:
 
@@ -145,8 +145,8 @@ magic dependency injection (DI frameworks, stubbing factories etc) anywhere but 
 
 ### Bindings
 
-When building configurations in pharrell you can bind instances to
-produce to classes in three different ways:
+When building configurations in pharrell you can bind instances in three different
+ways:
 
 ```ruby
 Pharrell.config(:example) do |config|
