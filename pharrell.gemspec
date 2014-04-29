@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Callum Stott"]
   s.email = ["callum@seadowg.com"]
   s.summary = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
+  s.description = "A dependency injection framework for Ruby. Allows Guice like functionality with both field and constructor injection."
   s.license = 'MIT'
   s.homepage = "http://github.com/seadowg/pharrell"
 
