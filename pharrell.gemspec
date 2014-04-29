@@ -3,12 +3,12 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name = "pharrell"
-  s.version = "0.8.1"
+  s.version = "0.8.2"
   s.platform = Gem::Platform::RUBY
   s.authors = ["Callum Stott"]
   s.email = ["callum@seadowg.com"]
   s.summary = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
-  s.description = "A dependency injection framework for Ruby. Allows Guice like functionality with both field and constructor injection."
+  s.description = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
   s.license = 'MIT'
   s.homepage = "http://github.com/seadowg/pharrell"
 
