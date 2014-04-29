@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ["Callum Stott"]
   s.email = ["callum@seadowg.com"]
-  s.summary = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
-  s.description = "I'm a provider gurl. Basic but powerful dependency injection for Ruby."
+  s.summary = "I'm a provider gurl"
+  s.description = "Basic but powerful dependency injection for Ruby."
   s.license = 'MIT'
   s.homepage = "http://github.com/seadowg/pharrell"
 
