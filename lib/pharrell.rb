@@ -23,7 +23,7 @@ module Pharrell
   end
 
   def self.reset!
-    environment.reset!
+    @@enironment = Environment.new
   end
 
   private
@@ -33,8 +33,10 @@ module Pharrell
   end
 
   class Environment
-    @configs = {}
-    @config = nil
+    def initialize
+      @configs = {}
+      @config = nil
+    end
 
     def config(name, opts = {}, &blk)
       check_options([:extends], opts)
@@ -57,11 +59,6 @@ module Pharrell
 
     def rebuild!
       current_config.rebuild!
-    end
-
-    def reset!
-      @configs = {}
-      @config = nil
     end
 
     private
