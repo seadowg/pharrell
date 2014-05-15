@@ -5,8 +5,6 @@ module Pharrell
     end
 
     module ClassMethods
-      @@cache = {}
-
       def injected(name, klass=nil)
         if klass.nil?
           klass_name = name.to_s.split("_").map(&:capitalize).join
@@ -14,8 +12,8 @@ module Pharrell
         end
 
         define_method(name) do
-          @@cache[self] ||= {}
-          @@cache[self][klass] ||= Pharrell.instance_for(klass)
+          @__pharrell_cache__ ||= {}
+          @__pharrell_cache__[klass] ||= Pharrell.instance_for(klass)
         end
       end
     end
