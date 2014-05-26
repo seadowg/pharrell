@@ -43,7 +43,15 @@ Pharrell.config(:base) do |config|
   config.bind(Time) { Time.now }
 end
 
-Pharrell.use_config(:base)
+class Base < Pharrell::Configuration
+  provider :time, Time
+
+  def time
+    Time.now
+  end
+end
+
+Pharrell.use_config(Base)
 ```
 
 You can use configurations to change the injected values in different
@@ -57,9 +65,17 @@ Pharrell.config(:test) do |config|
   config.bind(Time, Time.at(0))
 end
 
+class Test < Pharrell::Configuration
+  provider :time, Time
+
+  def time
+    Time.at(0)
+  end
+end
+
 describe BlackBox do
   before do
-    Pharrell.use_config(:test)
+    Pharrell.use_config(Test)
   end
 
   it "displays the time of day" do
@@ -130,55 +146,22 @@ end
 Our binding would then look like this:
 
 ```ruby
-Pharrell.config(:base) do |config|
-  config.bind(Time) { Time.now }
-  config.bind(PrettyTime, PrettyTime)
+class Base < Pharrell::Configuration
+  provider :time, Time
+
+  def time
+    Time.now
+  end
 end
 ```
 
 Because we marked `PrettyTime` as having constructor injection
-pharrell will build `PrettyTime` with the bound instance of `Time`.
+pharrell will build `PrettyTime` with the bound instance of `Time` when it is injected.
 
 This approach may seem more complex but it allows you to move most of your application's logic
 into more responsible components and should free you from using
 magic dependency injection (DI frameworks, stubbing factories etc) anywhere but at the top level.
 
-### Bindings
-
-When building configurations in pharrell you can bind instances in three different
-ways:
-
-```ruby
-Pharrell.config(:example) do |config|
-  config.bind(Object) { Object.new } # Evaluate and return for each injected Object
-  config.bind(Enumerable, Array) # Return a new instance of Array for each injected Enumerable
-  config.bind(String, "Hello") # Every injected String will be the same instance of "Hello"
-end
-```
-
-The last option (every String is "Hello") allows you to
-provides singletons using Pharrell. It's important to note that calling
-`.use_config` will cause the specified configuration to rerun its
-definition block and rebuild all singletons. This is useful in testing
-as you can assert on an object shared between test and real code without
-worrying about resetting or rebuilding it to avoid test pollution.
-
-### Extending Configurations
-
-You can also extend configurations. This allows you to use all the
-bindings from the original configuration and override bindings you want
-to change. For instance:
-
-```ruby
-Pharrell.use_config(:base) do |config|
-  config.bind(String, "This string")
-  config.bind(Hash, { :key => "value" })
-end
-
-Pharrell.use_config(:more, :extends => :base) do |config|
-  config.bind(String, "This string instead")
-end
-```
 ### Using with Rails
 
 Pharrell is really easy to set up with Rails. Here's an example similar to the `Time` example we used before:
@@ -187,20 +170,14 @@ Pharrell is really easy to set up with Rails. Here's an example similar to the `
 
 ```ruby
 class Application < Rails::Application
+  class Base < Pharrell::Configuration
+    def time
+      Time.now
+    end
+  end
+
   config.to_prepare do
-    Pharrell.config(:base) do |config|
-      config.bind(Time, Time)
-    end
-
-    # make sure you have one config for each of your environments!
-    Pharrell.config(:development, :extends => :base) {}
-    Pharrell.config(:production, :extends => :base) {}
-
-    Pharrell.use_config(:test, :extends => :base) do
-      config.bind(Time, FakeTime.new)
-    end
-
-    Pharrell.use_config(Rails.env.to_sym)
+    Pharrell.use_config(Base)
   end
 end
 ```
@@ -208,11 +185,17 @@ end
 **spec/spec_helper.rb**
 
 ```ruby
+class Test < Pharrell::Configuration
+  def time
+    @fake_time ||= FakeTime.new
+  end
+end
+
 RSpec.configure do |config|
   config.include Pharrell::Injectable
 
   config.before(:each) do
-    Pharrell.use_config(:test)
+    Pharrell.use_config(Test)
   end
 end
 ```
